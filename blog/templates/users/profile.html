@@ -1,0 +1,13 @@
+{% extends 'base.html'%}
+
+{% block title %}
+    User profile
+{% endblock %}
+
+{% block body %}
+    <h1>User profile</h1>
+    <div><b>ID:</b> {{user.id}}</div>
+    <div><b>Name:</b> {{user.first_name}}</div>
+    <div><b>Surname:</b> {{user.last_name}}</div>
+    <div><a href="{{ url_for('userBlueprint.users_list')}}">Друзья</a></div>
+{% endblock %}

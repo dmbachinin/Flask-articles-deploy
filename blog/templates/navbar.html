@@ -1,36 +1,41 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/">Main</a>
+    <a class="navbar-brand" href="/">Главная</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
+        {% if  current_user.is_authenticated %}
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('userBlueprint.users_list') }}">Users</a>
+          <a class="nav-link" href="{{ url_for('userBlueprint.get_user', pk=current_user.id) }}">{{current_user.first_name}}</a>
+        </li>
+        {% endif%}
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('userBlueprint.users_list') }}">Пользователи</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('authorBlueprint.author_list') }}">Authors</a>
+          <a class="nav-link" href="{{ url_for('authorBlueprint.author_list') }}">Авторы</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('articleBlueprint.article_list') }}">Articles</a>
+          <a class="nav-link" href="{{ url_for('articleBlueprint.article_list') }}">Статьи</a>
         </li>
         {% if  current_user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('articleBlueprint.article_create') }}">Create article</a>
+            <a class="nav-link" href="{{ url_for('articleBlueprint.article_create') }}">Создать статью</a>
           </li>
-          {% if  current_user.is_authenticated %}
-            <li class="nav-item">
-              <a class="nav-link" href="/admin">Admin panel</a>
-            </li>
+          {% if  current_user.is_staff%}
+              <li class="nav-item">
+                <a class="nav-link" href="/admin">Панель администратора</a>
+              </li>
           {% endif %}
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('authBlueprint.logout') }}">Logout ({{ current_user.first_name }})</a>
+            <a class="nav-link" href="{{ url_for('authBlueprint.logout') }}">Выйти</a>
           </li>
         {% else %}
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('authBlueprint.login') }}">Login</a>
+            <a class="nav-link" href="{{ url_for('authBlueprint.login') }}">Войти</a>
           </li>
         {% endif %}
       </ul>

@@ -3,38 +3,31 @@
 {% extends 'base.html'%}
 
 {% block title %}
-    Article list
+    Список статей
 {% endblock %}
 
 {% block body%}
-<h1>Article list {% if tag %} with tag <span class="badge text-bg-primary">{{ tag }}</span> {% endif %}</h1>
-    <div class="row row-cols-3">
-            {% for article in articles %}
-            <div class="col gy-3">
-                <div class="card" style="width: 20rem;">
+<h1>{% if tag %} Статьи с тегом <span class="badge text-bg-primary">{{ tag }}</span> {% else %} Список статей{% endif %}</h1>
+<div class="row row-cols-md-3 row-cols-xs-1 row-cols-lg-4 row-cols-xl-5">
+        {% for article in articles %}
+            <div class="card m-2">
                   <div class="card-body">
                     <h5 class="card-title">{{article.title}}</h5>
                     <p class="card-text">Дата создания: {{refactorDate(article.created_at)}}</p>
-                      <p class="card-text">
-                            Автор: <a href="{{ url_for('userBlueprint.get_user', pk=article.author.id) }}">{{article.author}}</a>
-                      </p>
-                      <p class="card-text">
-                              {% if article.tags %}
-                                Теги:
-                                    {% for tag in article.tags %}
-                                            <small>
-                                                <a  href="{{ url_for('articleBlueprint.article_by_tag',tag_name=tag.name)}}">
-                                                    <span class="badge text-bg-primary">{{tag.name}}</span>
-                                                </a>
-                                            </small>
-                                    {% endfor %}
-                                {% endif %}
-                      </p>
-                    <a href="{{ url_for('articleBlueprint.article_current', pk=article.id) }}" class="btn btn-primary">Прочитать</a>
+                    <p class="card-text">
+                        Автор: <a href="{{ url_for('userBlueprint.get_user', pk=article.author.id) }}">{{article.author}}</a>
+                    </p>
+                    <p class="card-text">
+                          {% if article.tags %}
+                            Теги:
+                                {% for tag in article.tags %}
+                                                <a href="{{ url_for('articleBlueprint.article_by_tag',tag_name=tag.name)}}" class=" text-decoration-none badge text-bg-primary"><small>{{tag.name}}</small></a>
+                                {% endfor %}
+                            {% endif %}
+                    </p>
+                    <a href="{{ url_for('articleBlueprint.article_current', pk=article.id) }}" class="btn btn-success">Прочитать</a>
                   </div>
-                </div>
             </div>
-            {%endfor%}
-
-    </div>
+        {%endfor%}
+</div>
 {% endblock %}
